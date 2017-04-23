@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+ <hibernate-mapping package="com.mo.businessObject">
+ 	<class name="Product" table="PRODUCT">
+ 		<id name="id" column="PRODUCT_ID">
+ 			<generator class="uuid2"></generator>
+ 		</id>
+ 		<property name="category" column="CATEGORY" type="string"></property>
+ 		<property name="name" column="NAME" type="string"></property>
+ 		<property name="description" column="description" type="string"></property>
+ 		<property name="unitPrice" column="UNIT_PRICE" type="double"></property>
+ 	</class>
+ </hibernate-mapping>       

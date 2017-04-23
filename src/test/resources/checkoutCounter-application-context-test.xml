@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:amq="http://activemq.apache.org/schema/core"
+	xmlns:jms="http://www.springframework.org/schema/jms"	
+	xmlns:sws="http://www.springframework.org/schema/web-services"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context         
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/web-services 
+        http://www.springframework.org/schema/web-services/web-services.xsd 
+        http://www.springframework.org/schema/mvc  
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd 
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://activemq.apache.org/schema/core 
+		http://activemq.apache.org/schema/core/activemq-core.xsd    
+		http://www.springframework.org/schema/jms 
+		http://www.springframework.org/schema/jms/spring-jms.xsd		           
+        http://www.springframework.org/schema/tx
+     	http://www.springframework.org/schema/tx/spring-tx.xsd
+     	http://www.springframework.org/schema/task 
+		http://www.springframework.org/schema/task/spring-task.xsd">
+     	
+  
+	 	<context:component-scan base-package="com.mo"/>
+	 	
+		<mvc:annotation-driven></mvc:annotation-driven>
+		
+		<tx:annotation-driven transaction-manager="transactionManager" />  
+
+ 		<bean id="userService" class="com.mo.service.impl.UserServiceImpl"></bean>
+ 		<bean id="productService" class="com.mo.service.impl.ProductServiceImpl"></bean>
+		 <bean id="dataSource"
+		         class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+			<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+			<property name="url" value="jdbc:mysql://localhost:3306/mo?useUnicode=true&amp;characterEncoding=UTF-8" />
+			<property name="username" value="root" />
+			<property name="password" value="root" />
+		</bean>
+
+        <bean id="sessionFactory" class = "org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+			<property name="mappingLocations">
+				<list>
+					<value>classpath*:com/mo/hibernate/*.hbm.xml </value>					
+				</list>
+			</property>			
+			<property name="dataSource">
+      			<ref bean="dataSource"/>
+    		</property>
+			<property name="hibernateProperties">
+				<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>	
+				<prop key="hibernate.show_sql">true</prop>	
+				<prop key="hibernate.connection.useUnicode">true</prop>	
+				<prop key="hibernate.connection.characterEncoding">UTF-8</prop>
+				 <prop key="hibernate.connection.charSet">UTF-8</prop>	
+				</props>
+			</property>
+		</bean>
+
+        <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+			<property name="sessionFactory" ref="sessionFactory"/>
+		</bean>
+		
+	   <bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+
+		<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		    <property name="messageConverters">
+		      <list>
+		        <ref bean="jacksonMessageConverter"/>
+		      </list>
+		    </property>
+		</bean> 
+
+        
+	
+		
+</beans>

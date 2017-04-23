@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+ <hibernate-mapping package="com.mo.businessObject">
+ 	<class name="User" table="USER">
+ 		<id name="id" column="USER_ID">
+ 			<generator class="uuid2"></generator>
+ 		</id>
+ 		<property name="role" column="ROLE" type="string"></property>
+ 		<property name="name" column="NAME" type="string"></property>
+ 		<property name="email" column="email" type="string"></property>
+ 	</class>
+ </hibernate-mapping>       
